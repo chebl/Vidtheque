@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}MédiaThéque{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {%block stylesheets%}
+      
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,800,700,300' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>                  
+                <link rel="stylesheet" href="{{asset('bundles/galleriemedia/js/prettyPhoto/css/prettyPhoto.css')}}"/>
+                <link rel="stylesheet" href="{{asset('bundles/galleriemedia/js/flexslider/flexslider.css')}}"/>                
+                <link rel="stylesheet" href="{{asset('bundles/galleriemedia/css/jquery.ui.all.css')}}"/>                
+                <link rel="stylesheet" href="{{asset('bundles/galleriemedia/css/jquery.ui.theme.css')}}"/> 
+		<link rel="stylesheet" href="{{asset('bundles/galleriemedia/style.css')}}"/>
+                <link rel="stylesheet" href="{{asset('bundles/galleriemedia/css/media-queries.css')}}"/>                    
+                <link rel="stylesheet" href="{{asset('bundles/galleriemedia/css/custom.css')}}"/> 
+                
+ <style type="text/css">
+
+
+
+/*------------------POPUPS------------------------*/
+#fade {
+	display: none;
+	background: #000; 
+	position: fixed; left: 0; top: 0; 
+	z-index: 10;
+	width: 100%; height: 100%;
+	opacity: .80;
+	z-index: 9999;
+}
+.popup_block{
+	display: none;
+	background: #fff;
+	padding: 20px; 	
+	border: 20px solid #ddd;
+	float: left;
+	font-size: 1.2em;
+	position: fixed;
+	top: 50%; left: 50%;
+	z-index: 99999;
+	-webkit-box-shadow: 0px 0px 20px #000;
+	-moz-box-shadow: 0px 0px 20px #000;
+	box-shadow: 0px 0px 20px #000;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	font: normal 10px Verdana, Arial, Helvetica, sans-serif;
+}
+img.btn_close {
+	float: right; 
+	margin: -55px -55px 0 0;
+}
+.popup p {
+	padding: 5px 10px;
+	margin: 5px 0;
+}
+/*--Making IE6 Understand Fixed Positioning--*/
+*html #fade {
+	position: absolute;
+}
+*html .popup_block {
+	position: absolute;
+}
+ </style>
+
+                <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+                <!--[if lt IE 9]>
+                    <script src="js/html5.js"></script>
+                <![endif]-->
+{% endblock %}				
+{% block javascripts %}
+
+
+                <script src="{{asset('bundles/galleriemedia/js/jquery-1.8.2.min.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/prettyPhoto/js/jquery.prettyPhoto.js')}}"></script>                
+                <script src="{{asset('bundles/galleriemedia/js/jquery.validate.min.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/jquery.form.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/jquery.ui.core.min.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/jquery.ui.datepicker.min.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/jquery.cycle.lite.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/jquery.easing.1.3.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/flexslider/jquery.flexslider-min.js')}}"></script>
+                <script src="{{asset('bundles/galleriemedia/js/jquery.isotope.min.js')}}"></script>
+                   <script src="{{asset('bundles/galleriemedia/js/custom.js')}}"></script>
+                   
+                  
+  
+     {% endblock %}  
+
+    </head>
+    <body>
+        
+        
+
+     
+   
+       
+      				
+        
+				
+                {% block body %} 		
+                       <!-- Starting Website Wrapper -->
+                        <div id="wrapper">
+                            {% block header %} {% endblock %}
+                            {% block slider %} {% endblock %}
+                            {% block container %} {% endblock %}
+                            {% block footer %} {% endblock %} 
+                        </div><!-- End of Wrapper Div -->
+                       
+     	                <a href="#top" id="scroll-top"></a>
+                	
+{% endblock %} 		
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

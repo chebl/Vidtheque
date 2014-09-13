@@ -1,0 +1,89 @@
+<?php
+
+namespace Gallerie\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+/**
+ * images
+ *
+ * @ORM\Table(name="images")
+ * @ORM\Entity
+ */
+class Photo
+{
+   /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+ 
+    /**
+     * @Assert\File(
+     *     maxSize = "500M",
+     *     mimeTypes = {"image/jpeg", "image/png", "image/gif"},
+     *     mimeTypesMessage = "ce format d'image est inconnu",
+     *     uploadIniSizeErrorMessage = "uploaded file is larger than the upload_max_filesize PHP.ini setting",
+     *     uploadFormSizeErrorMessage = "uploaded file is larger than allowed by the HTML file input field",
+     *     uploadErrorMessage = "uploaded file could not be uploaded for some unknown reason",
+     *     maxSizeMessage = "fichier trop volumineux"
+     * )
+     */
+    public $file;
+ 
+    /**
+     * @var string $path
+     *
+     * @ORM\Column(name="path", type="string", length=255)
+     */
+    private $path;
+ 
+/**
+     * @var datetime $dateinsertion
+     *
+     * @ORM\Column(name="dateinsertion", type="datetime")
+     */
+    private $dateinsertion;
+    
+     public function __construct()
+    {
+        $this->dateinsertion = new \DateTime();
+    }
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Photo
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+    
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+}

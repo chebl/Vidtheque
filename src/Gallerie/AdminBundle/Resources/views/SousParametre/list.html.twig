@@ -1,0 +1,108 @@
+{% extends 'GallerieMediaBundle::layout.html.twig' %}
+ 
+	{%block stylesheets%}
+{{parent() }}
+       
+{%endblock%}
+ 
+ {%block container %}
+
+   <hgroup class="page-head">     		
+                                <h2><span>Médiathéque</span></h2>
+                                    </hgroup>
+                        
+                        <div id="container" class="clearfix" style="background-color: whitesmoke;">
+						  		<div id="content" class="full-width">								
+                                         <ul class="tabs-nav1">
+		  
+                                 <li><a href="{{path('gallerie_admin_homepage',{'v':1})}}">Gestion des photos</a></li>
+                    
+                    <li><a href="{{path('gallerie_admin_homepage',{'v':2})}}">Gestion des vidéos</a></li>
+                    <li><a href="{{path('gallerie_admin_homepage',{'v':3})}}">Gestion des animations</a></li>
+                         <li class="active"><a href="{{path('gallerie_admin_homepage',{'v':4})}}">Gestion des paramétres du Filtrage</a></li> 
+                                 
+                            </ul>
+                                                                    
+                                                                       
+                            <div class="tabs-container">
+							<div class="tab-content">                           <div class="tabs-container">
+							<div class="tab-content">
+ <div class="mws-panel grid_8 mws-collapsible" id="mws-dashboard-chart">				
+    <div style="width: 130; float: left">
+      
+            
+        <img src="" height="120" width="120" style="float: top;">
+                                                                    </div>
+    <div style="width: 400; alignment-adjust: central"><h1>
+     Les Sous Paramétres du Filtrage
+      
+        </h1>
+        
+     </div>
+        <div class="mws-panel-header">
+                            
+                    	<span><i class="icon-table"></i></span>
+                    </div>
+                <div class="mws-panel-body no-padding">
+                        
+        <div id="supp">
+        
+        		 
+            <table  class="mws-table mws-datatable" style="border:1">
+							
+                                                    <thead>
+                                                        <tr style="background-color: #B8E0F9;">
+                                                                    
+								  
+                                                            <th><strong>{{parametre}}</strong></th>
+						            
+                                                            <th><strong>Action</strong></th>
+                                                                   
+                                                                   
+								   	</tr>
+                                                                 
+								
+							</thead>
+                                                       
+							
+                                                      
+                                                        
+							<tbody>
+                                                    {% for sousparam in pager.currentPageResults %}
+                                                          
+                                                            <tr>
+                                                                    
+									
+                                                                        <td>
+                                                                            <a href="{{path('editsousparam',{'id':sousparam.id})}}">{{sousparam.name}} </a>
+                                                                            
+                                                                        </td>
+                                                                        
+                                                                  
+                                                                                
+                                                                  	
+                                                                        <td><a href="{{path('editsousparam',{'id':sousparam.id})}}"><img src="{{asset('bundles/gallerieadmin/images/edit-icon.png')}}" alt="Editer"></a>&nbsp;
+                                                                        <a href="{{path('deletesousparam',{'id':sousparam.id})}}"><img src="{{asset('bundles/gallerieadmin/images/delete-icon.png')}}" alt="Supprimer"></a></td>
+								</tr>
+								{%endfor%}
+                                                                
+                                                                
+								
+							</tbody>
+                                                        
+						<div id="pagination">{{ pagerfanta(pager, 'default') }}</div> 	
+						</table>
+				<a href="{{path('addsousparam')}}">Nouveau paramétre</a>
+        
+        </div>
+        </div>
+         
+     </div>					
+</div> <!-- End #tab1 -->
+</div> <!-- End .content-box-content -->
+                                                            </div>
+                                </div>
+                                                                    </div>
+                            </div>   
+  {%include 'GallerieMediaBundle:gallerie:footer.html.twig'%}
+{%endblock%}

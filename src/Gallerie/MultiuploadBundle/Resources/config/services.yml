@@ -1,0 +1,7 @@
+parameters:
+#    gallerie_multiupload.example.class: Gallerie\MultiuploadBundle\Example
+
+services:
+#    gallerie_multiupload.example:
+#        class: %gallerie_multiupload.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

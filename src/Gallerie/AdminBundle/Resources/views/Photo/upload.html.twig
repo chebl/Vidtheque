@@ -1,0 +1,19 @@
+{% extends 'GallerieMediaBundle::layout.html.twig' %}
+
+{%block stylesheets%}
+{{parent() }}
+       
+{%endblock%}
+
+ {%block container %}
+
+
+
+
+<form action="{{path('addfiles')}}" method="post" {{ form_enctype(form) }}>
+  {{form_widget(form.files)}}
+  {{ form_rest(form) }}
+      <input type="submit" value="uploader">
+      
+    </form>
+{%endblock%}

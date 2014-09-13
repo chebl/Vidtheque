@@ -1,0 +1,92 @@
+gallerie_admin_homepage:
+    pattern:  /dashboard/{page}/{v}
+    defaults: { _controller: GallerieAdminBundle:Admin:list, page: 1,v:1 }
+    
+videomanager:
+    pattern:  /dashboard/listvideos/{page}
+    defaults: { _controller: GallerieAdminBundle:Admin:listvideo, page: 1 }
+    
+    
+editphoto:
+    pattern:  /editphoto/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:editphoto}
+updatephoto:
+    pattern:  /updatephoto
+    defaults: { _controller: GallerieAdminBundle:Admin:updatephoto}
+addphoto:
+    pattern:  /addphoto
+    defaults: { _controller: GallerieAdminBundle:Admin:addphoto}
+deletephoto:
+    pattern:  /deletephoto/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:deletephoto}
+   #route Gestion Videos 
+    
+editvideo:
+    pattern:  /editvideo/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:editvideo}
+updatevideo:
+    pattern:  /updatevideo
+    defaults: { _controller: GallerieAdminBundle:Admin:updatevideo}
+addvideo:
+    pattern:  /addvideo
+    defaults: { _controller: GallerieAdminBundle:Admin:addvideo}
+deletevideo:
+    pattern:  /deletevideo/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:deletevideo} 
+#route Gestion Animations
+    
+editanimation:
+    pattern:  /editanimation/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:editanimation}
+updateanimation:
+    pattern:  /updateanimation
+    defaults: { _controller: GallerieAdminBundle:Admin:updateanimation}
+addanimation:
+    pattern:  /addanimation
+    defaults: { _controller: GallerieAdminBundle:Admin:addanimation}
+deleteanimation:
+    pattern:  /deleteanimation/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:deleteanimation}     
+    
+addparam:
+    pattern:  /addparam
+    defaults: { _controller: GallerieAdminBundle:Admin:addparam}
+  
+editparam:
+    pattern:  /editparam/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:editparam}
+updateparam:
+    pattern:  /updateparam
+    defaults: { _controller: GallerieAdminBundle:Admin:updateparam}
+deleteparam:
+    pattern:  /deleteparam/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:deleteparam}   
+
+sousparam:
+    pattern:  /sousparam/{id}/{page}
+    defaults: { _controller: GallerieAdminBundle:Admin:listsousparam,page: 1}  
+
+addsousparam:
+    pattern:  /addsousparam
+    defaults: { _controller: GallerieAdminBundle:Admin:addsousparam}
+  
+editsousparam:
+    pattern:  /editsousparam/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:editsouparam}
+updatesousparam:
+    pattern:  /updatesousparam
+    defaults: { _controller: GallerieAdminBundle:Admin:updatesousparam}
+deletesousparam:
+    pattern:  /deletesousparam/{id}
+    defaults: { _controller: GallerieAdminBundle:Admin:deletesousparam}   
+sousparam:
+    pattern:  /sousparam/{id}/{page}
+    defaults: { _controller: GallerieAdminBundle:Admin:listsousparam,page: 1}  
+addfiles:
+   pattern:  /uploadfiles
+   defaults: { _controller: GallerieAdminBundle:Admin:uploadfiles }  
+  
+ 
+  
+  
+    

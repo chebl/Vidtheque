@@ -1,0 +1,7 @@
+gallerie_media_homepage:
+    pattern:  /home/{page}
+    defaults: { _controller: GallerieMediaBundle:Media:index,page: 1 }
+listbyparam:
+  pattern:  /list/{page}
+  defaults: { _controller: GallerieMediaBundle:Media:listbyparam,page: 1 }  
+   

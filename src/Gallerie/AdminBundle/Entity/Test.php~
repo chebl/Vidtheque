@@ -1,0 +1,185 @@
+<?php
+
+namespace Gallerie\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+/**
+ * Test
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Test
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    public $files;
+ /**
+     * @var array $images
+     *
+     * @ORM\Column(name="images", type="array")
+     */
+    private $images;    
+   
+  
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateinsertion", type="datetime")
+     */
+    private $dateinsertion;
+      /**
+     * @var integer
+     *
+     * @ORM\Column(name="insertingkey", type="integer")
+     */
+  private $insertingKey; 
+    
+    
+  public function __construct()
+    {
+      
+        $this->dateinsertion = new \DateTime();
+    }
+     
+public function preUpload()
+{
+    if (!empty($this->files)) {
+        if (!empty($this->images)) {
+            $this->insertingKey = $this->images->count();
+        }
+        foreach ($this->files as $file) {
+            $imageName = uniqid('entity_') . '_' . date('Y-m-d_H:i') .  '.' . $file->guessExtension();
+            if ($this->images === null) {
+                $this->images = new ArrayCollection();
+            }
+            $this->images->add($imageName);
+        }
+    }
+}
+ 
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload()
+    {
+        if (empty($this->files)) {
+            return;
+        }
+ 
+        foreach ($this->files as $key => $file) {
+            $file->move($this->getUploadRootDir(), $this->images[ $key ]);
+        }
+    }
+ 
+    public function getImagesWithAbsolutePath()
+    {
+        if (!empty($this->images)) {
+            $images = array();
+            foreach ($this->images as $image) {
+                $images[$image] = $this->getUploadRootDir() . '/' . $image;
+            }
+ 
+            return $images;
+        }
+ 
+        return null;
+    }
+ 
+    public function getImagesWithRelativePath()
+    {
+        if (!empty($this->images)) {
+            $images = array();
+            foreach ($this->images as $image) {
+                $images[$image] = '/' . $this->getUploadDir() . '/' . $image;
+            }
+ 
+            return $images;
+        }
+ 
+        return null;
+    }
+ 
+   protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded documents should be saved
+        return __DIR__.'/../../../../web/bundles/galleriemedia/'.$this->getUploadDir();
+    }
+     
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw when displaying uploaded doc/image in the view.
+        return 'uploads/images';
+    }
+    
+
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set images
+     *
+     * @param array $images
+     * @return Test
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+    
+        return $this;
+    }
+
+    /**
+     * Get images
+     *
+     * @return array 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Set dateinsertion
+     *
+     * @param \DateTime $dateinsertion
+     * @return Test
+     */
+    public function setDateinsertion($dateinsertion)
+    {
+        $this->dateinsertion = $dateinsertion;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateinsertion
+     *
+     * @return \DateTime 
+     */
+    public function getDateinsertion()
+    {
+        return $this->dateinsertion;
+    }
+}

@@ -1,0 +1,92 @@
+<?php
+
+namespace Gallerie\MultiuploadBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+/**
+ * Photo
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Photo
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="images", type="array")
+     */
+    private $images;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="insertingKey", type="integer")
+     */
+    private $insertingKey;
+
+      /**
+     * @Assert\File(
+     *     maxSize = "500M",
+     *     mimeTypes = {"video/mpeg", "video/mp4", "video/quicktime", "video/x-ms-wmv", "video/x-msvideo", "video/x-flv"},
+     *     mimeTypesMessage = "ce format de video est inconnu",
+     *     uploadIniSizeErrorMessage = "uploaded file is larger than the upload_max_filesize PHP.ini setting",
+     *     uploadFormSizeErrorMessage = "uploaded file is larger than allowed by the HTML file input field",
+     *     uploadErrorMessage = "uploaded file could not be uploaded for some unknown reason",
+     *     maxSizeMessage = "fichier trop volumineux"
+     * )
+     */
+    public $files;
+    
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+   
+
+    /**
+     * Set insertingKey
+     *
+     * @param integer $insertingKey
+     * @return Photo
+     */
+    public function setInsertingKey($insertingKey)
+    {
+        $this->insertingKey = $insertingKey;
+    
+        return $this;
+    }
+
+    /**
+     * Get insertingKey
+     *
+     * @return integer 
+     */
+    public function getInsertingKey()
+    {
+        return $this->insertingKey;
+    }
+    
+    
+    
+    
+}

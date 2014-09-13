@@ -1,0 +1,3 @@
+gallerie_multiupload_homepage:
+    pattern:  /upload
+    defaults: { _controller: GallerieMultiuploadBundle:Default:index }

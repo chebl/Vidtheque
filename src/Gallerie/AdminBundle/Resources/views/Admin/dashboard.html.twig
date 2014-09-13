@@ -1,0 +1,251 @@
+ {% extends 'GallerieMediaBundle::layout.html.twig' %}
+
+{%block stylesheets%}
+{{parent() }}
+       <style type="text/css">
+
+    /* Zoom Image */
+
+.thumbnail-item { 
+    /* position relative so that we can use position absolute for the tooltip */
+	position: relative; 
+	float: left;  
+	margin: 0px 5px; 
+}
+
+.thumbnail-item a { 
+	display: block; 
+}
+
+.thumbnail-item img.thumbnail {
+	border:3px solid #ccc;	
+}
+		
+.tooltip { 
+	/* by default, hide it */
+	display: none; 
+	/* allow us to move the tooltip */
+	position: absolute; 
+	/* align the image properly */
+	padding: 8px 0 0 8px; 
+}
+
+	.tooltip span.overlay { 
+		/* the png image, need ie6 hack though */
+		
+		/* put this overlay on the top of the tooltip image */
+	  position: absolute; 
+    	top: 0px; 
+		left: 0px; 
+	  
+     display: block; 
+        width: 350px; 
+    	height: 200px;
+		
+	}     
+
+
+</style>
+{%endblock%}
+ {%block javascripts %}
+{{parent() }}
+  
+ 
+
+   <script type="text/javascript">
+
+    // Load this script once the document is ready
+	$(document).ready(function () {
+		
+                $('div.thumbnail-item').mouseenter(function(e) {
+
+			// Calculate the position of the image tooltip
+			x = e.pageX - $(this).offset().left;
+			y = e.pageY - $(this).offset().top;
+
+			// Set the z-index of the current item, 
+			// make sure it's greater than the rest of thumbnail items
+			// Set the position and display the image tooltip
+			$(this).css('z-index','15')
+			.children("div.tooltip")
+			.css({'top': y + 10,'left': x + 20,'display':'block'});
+			
+		}).mousemove(function(e) {
+			
+			// Calculate the position of the image tooltip			
+			x = e.pageX - $(this).offset().left;
+			y = e.pageY - $(this).offset().top;
+			
+			// This line causes the tooltip will follow the mouse pointer
+			$(this).children("div.tooltip").css({'top': y + 10,'left': x + 20});
+			
+		}).mouseleave(function() {
+			
+			// Reset the z-index and hide the image tooltip 
+			$(this).css('z-index','1')
+			.children("div.tooltip")
+			.animate({"opacity": "hide"}, "fast");
+		});
+		
+(function(){
+           
+
+		var $tabsNav    = $('.tabs-nav'),
+			$tabsNavLis = $tabsNav.children('#l{{v}}');
+                       
+		$tabsNav.each(function(){
+			var $this = $(this);
+                        
+			$this.next().children('.tab-content').stop(true,true).hide()
+				$this.next().children('#c{{v}}').stop(true,true).show();
+		//$this.children('#l{{v}}').addClass('active').stop(true,true).show();
+		});
+
+		$tabsNavLis.on('click', function(e) {
+			var $this = $(this);
+			$this.siblings().removeClass('active').end()
+				 .addClass('active');
+			var idx = $this.parent().children().index($this);			
+			$this.parent().next().children('.tab-content').stop(true,true).hide().eq(idx).fadeIn();
+			e.preventDefault();
+		});
+		
+	})();
+
+
+	});
+
+
+
+</script>	 
+	
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+jQuery(function($){
+						   		   
+	//When you click on a link with class of poplight and the href starts with a # 
+	$('a.poplight').on('click', function() {
+		var popID = $(this).data('rel'); //Get Popup Name
+		var popWidth = $(this).data('width'); //Gets Popup Width
+
+		//Fade in the Popup and add close button
+		$('#' + popID).fadeIn().css({ 'width': popWidth}).prepend('<a href="#" class="close"><img src="{{asset('bundles/gallerieadmin/images/close_pop.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>');
+		
+		//Define margin for center alignment (vertical + horizontal) - we add 80 to the height/width to accomodate for the padding + border width defined in the css
+		var popMargTop = ($('#' + popID).height() + 80) / 2;
+		var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		
+		//Apply Margin to Popup
+		$('#' + popID).css({ 
+			'margin-top' : -popMargTop,
+			'margin-left' : -popMargLeft
+		});
+		
+		//Fade in Background
+		$('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
+		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer 
+		
+		return false;
+	});
+	
+	
+	//Close Popups and Fade Layer
+	$('body').on('click', 'a.close, #fade', function() { //When clicking on the close or fade layer...
+		$('#fade , .popup_block').fadeOut(function() {
+			$('#fade, a.close').remove();  
+	}); //fade them both out
+		
+		return false;
+	});
+
+	
+});
+
+
+</script> 
+	 
+ {%endblock %}
+ 
+ 
+  {%block container %}  
+   <hgroup class="page-head">     		
+                                <h2><span>Médiathéque</span></h2>
+                                    </hgroup>
+                        
+                        <div id="container" class="clearfix" style="background-color: whitesmoke;">
+						  		<div id="content" class="full-width">								
+                                         <ul class="tabs-nav">
+		{%if v==1%}
+                                                 <li id="l{{v}}" class="active"><a  href="#">Gestion des photos</a></li>
+                    {%else %}
+                                                 <li id="l{{v}}"><a  href="#">Gestion des photos</a></li>
+                          {%endif%}
+                   {%if v==2%}
+                                                 
+                    <li id="l{{v}}" class="active"><a  href="#">Gestion des vidéos</a></li>
+                  {%else %}
+                     <li id="l{{v}}"><a  href="#">Gestion des vidéos</a></li>
+                       {%endif%}
+                         {%if v==3%}
+                    
+                           <li id="l{{v}}" class="active"><a  href="#"  >Gestion des animations</a></li>
+                         {%else %}
+                         <li id="l{{v}}"><a  href="#" >Gestion des animations</a></li>
+                         {%endif%}
+                    {%if v==4%}
+                    <li id="l{{v}}" class="active"><a href="#" >Gestion des paramétres du Filtrage</a></li>           
+                           
+                    {%else %}
+                     <li id="l{{v}}"><a href="#">Gestion des paramétres du Filtrage</a></li>  
+                    
+                      {%endif%}       
+                                             </ul>
+                                                                      
+                                                                     
+                            <div class="tabs-container">
+                              {%if v==1%}
+							<div class="tab-content" id="c{{v}}" >
+                                                          {%else%}
+                                                                <div class="tab-content" >
+                                                                    {%endif%}
+                                                                  {%include 'GallerieAdminBundle:Photo:gestionphotos.html.twig' with {'pagerphoto': pagerphoto}%}
+							
+
+
+
+
+                                                            
+							
+</div>
+                                    {%if v==2%}
+                                                                <div class="tab-content" id="c{{v}}">
+                                                                     {%else%}
+                                                                <div class="tab-content" >
+                                                                    {%endif%}
+                    {%include 'GallerieAdminBundle:Video:gestionvideos.html.twig' with {'pagervideo': pagervideo}%}
+			  
+                                                     </div> 
+                                      {%if v==3%}
+                                     <div class="tab-content" id="c{{v}}">
+                                         {%else%}
+                                           <div class="tab-content" >
+                                                                    {%endif%}  
+                               {%include 'GallerieAdminBundle:Animation:gestionanimations.html.twig' with {'pageranimation': pageranimation}%}
+
+                              </div>
+                                             
+                                     {%if v==4%}
+                                     <div class="tab-content" id="c{{v}}">
+                                         {%else%}
+                                           <div class="tab-content" >
+                                                                    {%endif%} 
+                               {%include 'GallerieAdminBundle:Filtre:gestionparams.html.twig' with {'pagerparam': pagerparam}%}
+
+                              </div>
+     
+					 </div>
+					    
+                                                                    </div>
+                            </div>
+                                  {%include 'GallerieMediaBundle:gallerie:footer.html.twig'%}
+ {%endblock%}

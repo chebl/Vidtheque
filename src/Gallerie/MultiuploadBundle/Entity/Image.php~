@@ -1,0 +1,210 @@
+<?php
+  namespace Gallerie\MultiuploadBundle\Entity;
+ 
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+ 
+/**
+ * Gallerie\MultiuploadBundle\Entity\Image
+ * @ORM\Entity
+ * @ORM\Table(name="images")
+ */
+class Image
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+ 
+    /**
+     * @Assert\File(
+     *     maxSize = "500M",
+     *     mimeTypes = {"image/jpeg", "image/png", "image/gif"},
+     *     mimeTypesMessage = "ce format d'image est inconnu",
+     *     uploadIniSizeErrorMessage = "uploaded file is larger than the upload_max_filesize PHP.ini setting",
+     *     uploadFormSizeErrorMessage = "uploaded file is larger than allowed by the HTML file input field",
+     *     uploadErrorMessage = "uploaded file could not be uploaded for some unknown reason",
+     *     maxSizeMessage = "fichier trop volumineux"
+     * )
+     */
+    public $files;
+ 
+    /**
+     * @var array $paths
+     *
+     * @ORM\Column(name="paths", type="array", nullable=true)
+     */
+    private $paths;
+ 
+   /**
+     * @var integer $insertingKey
+     *
+     * @ORM\Column(name="insertingKey", type="integer")
+ */
+    private $insertingKey;
+    
+    
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+   
+    
+   
+    
+
+    /**
+     * Set insertingKey
+     *
+     * @param integer $insertingKey
+     * @return Image
+     */
+    public function setInsertingKey($insertingKey)
+    {
+        $this->insertingKey = $insertingKey;
+    
+        return $this;
+    }
+
+    /**
+     * Get insertingKey
+     *
+     * @return integer 
+     */
+    public function getInsertingKey()
+    {
+        return $this->insertingKey;
+    }
+   
+    
+    
+
+   
+
+    /**
+     * Set paths
+     *
+     * @param array $paths
+     * @return Image
+     */
+    public function setPaths($paths)
+    {
+        $this->paths = $paths;
+    
+        return $this;
+    }
+
+    /**
+     * Get paths
+     *
+     * @return array 
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+      /**
+ * @ORM\PrePersist()
+ * @ORM\PreUpdate()
+ */
+public function preUpload()
+{
+    if ($this->files[0] != null || !$this->files) {
+        if (!empty($this->$paths)) {
+            $this->insertingKey = count($this->$paths);
+        }
+        foreach ($this->files as $file) {
+            $imageName = uniqid('pref_') . '_' . date('Y-m-d_H:i') .  '.' . $file->guessExtension();
+            if ($this->$paths === null) {
+                $this->$paths = array();
+            }
+            $this->$paths->add($imageName);
+        }
+    }
+}
+
+/**
+ * @ORM\PostPersist()
+ * @ORM\PostUpdate()
+ */
+public function upload()
+{
+    if ($this->files[0] == null || !$this->files) {
+        return;
+    }
+
+    if ($this->insertingKey) {
+        foreach ($this->files as $file) {
+            $file->move($this->getUploadRootDir(), $this->$paths[ $this->insertingKey++ ]);
+        }
+    } else {
+        foreach ($this->files as $key => $file) {
+            $file->move($this->getUploadRootDir(), $this->$paths[ $key ]);
+        }
+    }
+}
+
+public function getImagesWithAbsolutePath()
+{
+    if (!empty($this->$paths)) {
+        $images = array();
+        foreach ($this->$paths as $image) {
+            $images[$image] = $this->getUploadRootDir() . '/' . $image;
+        }
+
+        return $images;
+    }
+
+    return null;
+}
+
+public function getImagesWithRelativePath()
+{
+    if (!empty($this->$paths)) {
+        $images = array();
+        foreach ($this->$paths as $image) {
+            $images[$image] = $this->getUploadDir() . '/' . $image;
+        }
+
+        return $images;
+    }
+
+    return null;
+}
+
+public function getUploadRootDir()
+{
+    return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+}
+
+public function getUploadDir()
+{
+    return 'uploads/images';
+}
+
+public function removeImage($imageName)
+{
+    if ($this->$paths && in_array($imageName, $this->$paths)) {
+        $key = array_search($imageName, $this->$paths);
+        unset($this->$paths[$key]);
+        if (file_exists($this->getUploadRootDir() . '/' . $imageName)) {
+            unlink($this->getUploadRootDir() . '/' . $imageName);
+        }
+
+        $this->$paths = array_values($this->$paths);
+    }
+}
+}

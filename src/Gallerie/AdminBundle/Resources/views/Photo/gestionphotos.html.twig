@@ -1,0 +1,112 @@
+
+ <!-- This is the target div. id must match the href of this div's tab -->
+	<div class="mws-panel grid_8 mws-collapsible" id="mws-dashboard-chart">				
+    <div style="width: 130; float: left">
+     
+            
+        <img src="{{asset('bundles/galleriemedia/images/gallery.png')}}" height="100" width="100" style="float: top;">
+                                                                    </div>
+    <div style="width: 400; alignment-adjust: central"><h1>
+     Mes Photos Publiées
+      
+        </h1>
+        
+     </div>
+      
+                <div class="mws-panel-body no-padding">
+                        
+        <div id="supp">
+        
+        		 
+            <table  class="mws-table mws-datatable" style="border:1">
+							
+                                                    <thead>
+                                                        <tr style="background-color: #B8E0F9;">
+                                                                    
+								  
+                                                            <th><strong>Libellé</strong></th>
+						            <th><strong>Photo</strong></th>
+                                                           
+                                                            {% for param in pagerparam.currentPageResults %}
+                                                            <th><strong>{{param}}</strong></th>
+                                                            {%endfor%}
+                                                            <th><strong>Publié Le</strong></th>
+                                                            <th><strong>Action</strong></th>
+                                                                   
+                                                                   
+								   	</tr>
+                                                                 
+								
+							</thead>
+                                                       
+							
+                                                      
+                                                        
+							<tbody>
+                                                    {% for photo in pagerphoto.currentPageResults %}
+                                                          
+                                                            <tr>
+                                                                    
+									
+                                                                        <td>
+                                                                            <a href="{{path('editphoto',{'id':photo.id})}}">{{photo.libelle}} </a>
+                                                                            
+                                                                        </td>
+                                                                        
+                                                                        <td>
+                                                                            
+                                                                            <div class="thumbnail-item">
+                                                                                <a href="#">
+                <img src="{{asset('bundles/galleriemedia/uploads/images/')}}{{photo.path}}" width="30%" height="20%" class="thumbnail">
+                                                                                </a>
+                <div class="tooltip">
+    	<img src="{{asset('bundles/galleriemedia/uploads/images/')}}{{photo.path}}" width="180%" height="180%">
+            	
+			<span class="overlay"></span>
+		</div> 
+</div>
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+                                                                           </td>
+                                                                            
+                                                                {% for param in pagerparam.currentPageResults %}
+                                                                           
+                                                                    {%for sousparam in photo.sousparametres%} 
+                                                                            {% if(sousparam.parametre.id==param.id) %}
+                                                                           <td>
+                                                                               {{sousparam.name}}
+                                                                           </td>
+
+                                                                         
+{%endif%}
+                                                                           
+                                                                           {%endfor%}
+                                                                          
+                                                                           {%endfor%}
+                                                                          
+                                                                        <td>{{ photo.dateinsertion|date('d-M-y H:i:s')}}</td>
+									
+                                                                        <td><a href="{{path('editphoto',{'id':photo.id})}}"><img src="{{asset('bundles/gallerieadmin/images/edit-icon.png')}}" alt="Editer"></a>&nbsp;
+                                                                        <a href="{{path('deletephoto',{'id':photo.id})}}"><img src="{{asset('bundles/gallerieadmin/images/delete-icon.png')}}" alt="Supprimer"></a></td>
+								</tr>
+								{%endfor%}
+                                                               
+                                                                
+                                                                
+                                                                
+								
+							</tbody>
+                                                        
+						<div id="pagination">{{ pagerfanta(pagerphoto, 'default') }}</div> 	
+						</table>
+            <a href="{{path('addphoto')}}"><img src="{{asset('bundles/galleriemedia/images/image_add_48.png')}}" alt="Ajouter une photo"></a>
+        
+        
+        </div>
+						
+</div> <!-- End #tab1 -->
+</div> <!-- End .content-box-content -->
+

@@ -1,0 +1,107 @@
+
+ <!-- This is the target div. id must match the href of this div's tab -->
+	<div class="mws-panel grid_8 mws-collapsible" id="mws-dashboard-chart">				
+    <div style="width: 130; float: left">
+      
+            
+       <img src="{{asset('bundles/galleriemedia/images/videogallery.png')}}" height="100" width="100" style="float: top;">
+                                                                    </div>
+    <div style="width: 400; alignment-adjust: central"><h1>
+     Mes Videos Publiées
+      
+        </h1>
+        
+     </div>
+        <div class="mws-panel-header">
+                            
+                    	<span><i class="icon-table"></i></span>
+                    </div>
+                <div class="mws-panel-body no-padding">
+                        
+        <div id="supp">
+        
+        		 
+            <table  class="mws-table mws-datatable" style="border:1">
+							
+                                                    <thead>
+                                                        <tr style="background-color: #B8E0F9;">
+                                                                    
+								  
+                                                            <th><strong>Libellé</strong></th>
+						            <th><strong>Path</strong></th>
+                                                            {% for param in pagerparam.currentPageResults %}
+                                                            <th><strong>{{param}}</strong></th>
+                                                            {%endfor%}
+                                                            <th><strong>Publié Le</strong></th>
+                                                            <th><strong>Action</strong></th>
+                                                                   
+                                                                   
+								   	</tr>
+                                                                 
+								
+							</thead>
+                                                       
+							
+                                                      
+                                                        
+							<tbody>
+                                                    {% for video in pagervideo.currentPageResults %}
+                                                          
+                                                            <tr>
+                                                                    
+									
+                                                                        <td>
+                                                                            <a href="{{path('editvideo',{'id':video.id})}}">{{video.libelle}} </a>
+                                                                            
+                                                                        </td>
+                                                                        
+                                                                        <td>
+                                                                            <a href="#"  data-rel="popup{{video.id}}" class="poplight">Lire</a>
+                                                                            
+                                                                            <div id="popup{{video.id}}" class="popup_block" style="width: 500px; height: 300px;">
+                                                                                <video poster="{{asset('bundles/galleriemedia/images/img1.jpg')}}" width="100%" height="100%"  controls preload>
+                                                  <source src="{{asset('bundles/galleriemedia/uploads/videos/')}}{{video.path}}"/> </video>                                                       
+                                              
+                                                                                      </div>
+                                                                              
+                                                                            
+                                                                            </td>
+                                                                            {% for param in pagerparam.currentPageResults %}
+                                                                           
+                                                                    {%for sousparam in video.sousparametres%} 
+                                                                            {% if(sousparam.parametre.id==param.id) %}
+                                                                           <td>
+                                                                               {{sousparam.name}}
+                                                                           </td>
+
+                                                                         
+{%endif%}
+                                                                           
+                                                                           {%endfor%}
+                                                                          
+                                                                           {%endfor%}
+                                                                                
+                                                                        <td>{{ video.dateinsertion|date('d-M-y H:i:s')}}</td>
+									
+                                                                        <td><a href="{{path('editvideo',{'id':video.id})}}"><img src="{{asset('bundles/gallerieadmin/images/edit-icon.png')}}" alt="Editer"></a>&nbsp;
+                                                                        <a href="{{path('deletevideo',{'id':video.id})}}"><img src="{{asset('bundles/gallerieadmin/images/delete-icon.png')}}" alt="Supprimer"></a></td>
+								</tr>
+								{%endfor%}
+                                                                
+                                                                
+								
+							</tbody>
+                                                        
+						<div id="pagination">{{ pagerfanta(pagervideo, 'default') }}</div> 	
+						</table>
+            <a href="{{path('addvideo')}}"><img src="{{asset('bundles/galleriemedia/images/addvideo.png')}}" alt="Ajouter une video" width="50" height="50"></a>
+   
+				
+        
+        
+        </div>
+                    
+                  
+						
+</div> <!-- End #tab1 -->
+</div> <!-- End .content-box-content -->

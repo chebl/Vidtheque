@@ -1,0 +1,257 @@
+ {% extends 'GallerieMediaBundle::layout.html.twig' %}
+
+{%block stylesheets%}
+{{parent() }}
+       
+{%endblock%}
+ {%block javascripts %}
+{{parent() }}
+  
+
+<script>
+   	$(document).ready(function () {
+        
+        
+   (function(){
+
+		var $tabsNav    = $('.tabs-nav'),
+			$tabsNavLis = $tabsNav.children('li');
+
+		$tabsNav.each(function(){
+			var $this = $(this);
+			$this.next().children('.tab-content').stop(true,true).hide()
+		//$this.next().children('.tab-content').stop(true,true).first().show();
+			//$this.children('li').first().addClass('active').stop(true,true).show();
+		});
+
+		$tabsNavLis.on('click', function(e) {
+			var $this = $(this);
+			$this.siblings().removeClass('active').end()
+				 .addClass('active');
+			var idx = $this.parent().children().index($this);			
+			$this.parent().next().children('.tab-content').stop(true,true).hide().eq(idx).fadeIn();
+			e.preventDefault();
+		});
+		
+	})();
+});
+</script>	 
+	 
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script>
+jQuery(function($){
+						   		   
+	//When you click on a link with class of poplight and the href starts with a # 
+	$('a.poplight').on('click', function() {
+		var popID = $(this).data('rel'); //Get Popup Name
+		var popWidth = $(this).data('width'); //Gets Popup Width
+
+		//Fade in the Popup and add close button
+		$('#' + popID).fadeIn().css({ 'width': popWidth}).prepend('<a href="#" class="close"><img src="{{asset('bundles/gallerieadmin/images/close_pop.png')}}" class="btn_close" title="Close Window" alt="Close" /></a>');
+		
+		//Define margin for center alignment (vertical + horizontal) - we add 80 to the height/width to accomodate for the padding + border width defined in the css
+		var popMargTop = ($('#' + popID).height() + 80) / 2;
+		var popMargLeft = ($('#' + popID).width() + 80) / 2;
+		
+		//Apply Margin to Popup
+		$('#' + popID).css({ 
+			'margin-top' : -popMargTop,
+			'margin-left' : -popMargLeft
+		});
+		
+		//Fade in Background
+		$('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
+		$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer 
+		
+		return false;
+	});
+	
+	
+	//Close Popups and Fade Layer
+	$('body').on('click', 'a.close, #fade', function() { //When clicking on the close or fade layer...
+		$('#fade , .popup_block').fadeOut(function() {
+			$('#fade, a.close').remove();  
+	}); //fade them both out
+		
+		return false;
+	});
+
+	
+});
+
+
+</script> 	 
+ {%endblock %}
+ 
+ {%block container %}
+ 
+   <hgroup class="page-head">     		
+                                <h2><span>Médiathéque</span></h2>
+                                    </hgroup>
+                        
+                        <div id="container" class="clearfix" style="background-color: whitesmoke;">
+						  		<div id="content" class="full-width">								
+                                         <ul class="tabs-nav">
+		  
+                                <li><a href="#">Filtrer par nom</a></li>
+                    
+                    <li><a href="#">Filtrer par Type</a></li>
+                    
+                      {% for param in parametre %}
+                 <li><a href="#">Filter par {{param}}</a></li>
+                    {%endfor%}
+                 
+                    
+                            </ul>
+                            <div class="tabs-container">
+							<div class="tab-content">
+						<section class="widget">
+                                        <form  method="post" id="searchform" style="width:30%;" action="">
+                                            <div><label class="screen-reader-text" for="s">Search for:</label>
+                                            <input type="text" value="" name="search" id="s">
+                                            <input type="submit" id="searchsubmit" value="Rechercher">
+                                            </div>
+                                         </form>
+                                     </section>
+                                                                                
+							</div>
+                          		 
+                                                                 <div class="tab-content">
+                               <section class="widget">
+                                        <form  method="post" id="searchform" action="{{path('listbyparam')}}">
+                                            <div>
+                                                Type:
+                                                <select name="typemedia">
+                                                    <option value="p">Photo</option>
+                                                    <option value="v">Video</option>
+                                                    <option value="a">Animation</option>
+                                                
+                                                </select>
+                                                
+                                                 <input type="submit" id="searchsubmit" value="Rechercher">
+                                            </div>
+                                         </form>
+                                     </section>
+ 
+                              </div>	 
+                                  
+                                   
+                                   
+                                     {% for param in parametre %}
+                                    <div class="tab-content">
+                                        
+                                             <section class="widget">
+                                                 
+                                     <form  method="post" id="searchform" action="{{path('listbyparam')}}">
+                                         {{param}} 
+                                             
+                                             
+                                         <select name="sousparametre">
+                                        {%for sousparam in param.getSousparametres%}
+                                                <option value="{{sousparam.id}}">{{sousparam}}</option>
+                                                {%endfor%}
+                                              
+                                               
+                                        </select>
+                                             <br>
+                                             <br> Type médias:&nbsp;  <input type="radio" name="typemedia" value="p" checked>Photos<br>
+                                            <div style="margin-left: 83px;">    <input type="radio" name="typemedia" value="v">Videos<br></div>
+                                            <div style="margin-left: 83px;"><input type="radio" name="typemedia" value="a">Animations</div>
+                                             
+                                                               <br>
+                                             <input type="submit" id="searchsubmit" value="Rechercher">
+                                         </form>
+                                                 </section>
+                                    </div>
+                                    {%endfor%}
+                                    
+                                    <div id="content" class="full-width">	</div>
+                                    <div class="official clearfix">
+                                		
+                                        <div class="home-left-side">   
+                                             
+                                            <section class="team clearfix" style="width:100%">
+                                                                          
+                                	<!--sidebar-->	
+                                         {%if type==0%}
+										<ul class="doctors">
+                               				
+                                                                                       
+                                              {% for media in pager.currentPageResults %}
+                                                <li style="width:25%;height: 100%;">
+                                                    <figure class="doc-img">													
+                                                        <a href="{{asset('bundles/galleriemedia/uploads/images/')}}{{media.path}}"  data-rel="popup{{media.id}}" class="poplight" data-width="500" title="{{media.libelle}}" >
+                                                            <img width="100%" height="100%" src="{{asset('bundles/galleriemedia/uploads/images/')}}{{media.path}}" alt="{{media.libelle}}"></a>
+                                                            <span class="doc-type"><a href="">{{media.libelle}}</a></span>	
+                                                            <div id="popup{{media.id}}" class="popup_block">
+                                                            <img width="100%" height="100%" src="{{asset('bundles/galleriemedia/uploads/images/')}}{{media.path}}" alt="{{media.libelle}}">	
+																																													
+                                                    </div>
+                                                        </figure>
+                                                   
+                                                    </li>
+                                                    
+                                               {%endfor%}
+                                                    </ul>
+                                                    {%endif%}
+                                                    {%if type==1%}
+                                        <ul class="doctors">
+                                                     {% for media in pager.currentPageResults %}
+                                              <li>
+                                                  <figure class="doc-img">	   		
+                                                      <a href=""  data-rel="popup{{media.id}}" class="poplight" data-width="500" title="{{media.libelle}}" ><img src="{{asset('bundles/galleriemedia/images/video.jpg')}}" width="100%" height="100%"></a>
+                                                      <span class="doc-type" style="color: #000">{{media.libelle}}</span> 
+                                                      <div id="popup{{media.id}}" class="popup_block">
+                                                         <video poster="{{asset('bundles/galleriemedia/images/video.png')}}" width="100%" height="100%"  controls preload>
+                                                  <source src="{{asset('bundles/galleriemedia/uploads/videos/')}}{{media.path}}"/> </video>
+                                                      
+                                                          </div>
+                                                    </figure>
+                                                   
+                                                    </li>   
+                                                      {%endfor%}
+                                                    </ul>
+                                                    {%endif%}
+                                                    		
+                                        {%if type==2%}
+                                        <ul class="doctors">
+                                                     {% for media in pager.currentPageResults %}
+                                              <li>
+                                                  <figure class="doc-img">
+                                        
+                                        
+                                         <embed src="{{asset('bundles/galleriemedia/uploads/animations/')}}{{media.path}}">
+						 </figure>
+                                                   
+                                                    </li>   
+                                                      {%endfor%}
+                                                    </ul>
+                                                    {%endif%}
+                                                    						 
+                                        
+                                      
+										                                                                               
+                                </section>
+                                             
+                                        </div>
+                                        
+                                            {{ render(controller("GallerieMediaBundle:Media:getsidebar")) }}  
+                                                                
+                                                         
+                                                              
+                                        </div>
+                                   
+					 <div id="pagination">{{ pagerfanta(pager, 'default') }}</div> 	
+							
+ 				 
+                  							  
+                  
+					 </div>
+					                           </div>
+                            
+                                
+                         
+                            </div>
+                               
+                                  {%include 'GallerieMediaBundle:gallerie:footer.html.twig'%}
+ {%endblock%}

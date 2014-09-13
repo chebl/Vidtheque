@@ -1,0 +1,128 @@
+ {% extends 'GallerieMediaBundle::layout.html.twig' %}
+
+{%block stylesheets%}
+{{parent() }}
+       
+{%endblock%}
+ 
+ {%block container %}
+ 
+   <hgroup class="page-head">     		
+                                <h2><span>Médiathéque</span></h2>
+                                    </hgroup>
+                        
+                        <div id="container" class="clearfix" style="background-color: whitesmoke;">
+						  		<div id="content" class="full-width">								
+                                         <ul class="tabs-nav1">
+		  
+                               <li class="active"><a href="{{path('gallerie_admin_homepage',{'v':1})}}">Gestion des photos</a></li>
+                    
+                    <li><a href="{{path('gallerie_admin_homepage',{'v':2})}}">Gestion des vidéos</a></li>
+                    <li><a href="{{path('gallerie_admin_homepage',{'v':3})}}">Gestion des animations</a></li>
+                         <li><a href="{{path('gallerie_admin_homepage',{'v':4})}}">Gestion des paramétres du Filtrage</a></li> 
+                               
+                            </ul>
+                            <div class="tabs-container">
+							<div class="tab-content">
+                                                            
+                                                            
+                                                                 <section class="widget">
+                                                            <form action="{{path('updatephoto')}}" method="post" id="searchform" {{ form_enctype(form) }}>  
+                                                           <table>
+                                                                <tr>
+                                                                    <td style="width:30px">
+                                                                    {{form_label(form.libelle)}}
+                                                                    </td>
+                                                                   <td>
+                                                                    {{form_widget(form.libelle)}}
+                                                                    </td>
+                                                                     <td>
+                                                                         <input type="hidden" value="{{id}}" name="id"/>    </td>
+                                                                  
+                                                                     <td><span style="color: red">
+                                                                    {{form_errors(form.libelle)}}</span>
+                                                                    </td>
+                                                                   </tr>
+                                                                   <tr>
+                                                                     <td style="width:30px">
+                                                                    {{form_label(form.description)}}
+                                                                    </td>
+                                                                <td>
+                                                                    {{form_widget(form.description)}}
+                                                                    </td>
+                                                                </tr>
+                                                               
+                                                                
+                                                                <tr>
+                                                               <td style="width:30px">
+                                                                    {{form_label(form.file)}}
+                                                                    </td>
+                                                                    
+                                                               <td>
+                                                                    {{form_widget(form.file)}}
+                                                                    </td>
+                                                                    
+                                                                    
+                                                                     </tr>
+                                                                     <tr><td>
+                                                    <td>
+                                                  <span style="color: red">{{ form_errors(form.file) }}</span></td> 
+                                                                     
+                                                                     
+                                                                 </tr>
+                                                                 
+                                                                  {%set j=0 %}
+{%for param in parametre %}
+  <tr>
+<td style="width:30px">
+ {{param.name}}
+     </td>  
+     <td>
+         <select name="l{{j}}">
+{%for sousparam in sousparametres %} 
+                                
+                                   {% if(sousparam.parametre.id==param.id) %}     
+            
+                 <option value="{{sousparam.id}}">{{sousparam.name}}</option>
+            
+         {%endif%}
+                 {%endfor%}
+                 {%for sousparam1 in  restsousparametre  %} 
+                                
+                                   {% if(sousparam1.parametre.id==param.id) %}     
+            
+                 <option value="{{sousparam1.id}}">{{sousparam1.name}}</option>
+            
+         {%endif%}
+               {%endfor%}  
+              
+                 
+                                
+                 
+                 
+                  </select>
+             {%set j=j+1%}
+         </td>
+                  </tr>                   
+         {%endfor%}
+                                                                         
+                  <input type="hidden" value="{{j}}" name="nbparam"/>                                                      
+                                                                         
+                                                                   
+                                                                 
+                                                             {{ form_rest(form) }}
+                                                                     <tr><td>
+                                                                          <input type="submit" id="searchsubmit" value="Modifier">
+                                                                         </td>
+                                                                     </tr>
+                                                                    
+                                                            </table>	
+                                                                     
+                                                         </form>
+	                                               </section>
+					    
+                                                                    </div></div>
+                                                                    </div>
+                            </div>
+                                  {%include 'GallerieMediaBundle:gallerie:footer.html.twig'%}
+ {%endblock%}

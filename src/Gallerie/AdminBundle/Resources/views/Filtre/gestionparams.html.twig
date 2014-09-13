@@ -1,0 +1,75 @@
+
+ <!-- This is the target div. id must match the href of this div's tab -->
+	<div class="mws-panel grid_8 mws-collapsible" id="mws-dashboard-chart">				
+    <div style="width: 130; float: left">
+      
+            
+        <img src="" height="120" width="120" style="float: top;">
+                                                                    </div>
+    <div style="width: 400; alignment-adjust: central"><h1>
+     Les Paramétres du Filtrage
+      
+        </h1>
+        
+     </div>
+        <div class="mws-panel-header">
+                            
+                    	<span><i class="icon-table"></i></span>
+                    </div>
+                <div class="mws-panel-body no-padding">
+                        
+        <div id="supp">
+        
+        		 
+            <table  class="mws-table mws-datatable" style="border:1">
+							
+                                                    <thead>
+                                                        <tr style="background-color: #B8E0F9;">
+                                                                    
+								  
+                                                            <th><strong>Paramétre</strong></th>
+						            
+                                                            <th><strong>Action</strong></th>
+                                                                   
+                                                                   
+								   	</tr>
+                                                                 
+								
+							</thead>
+                                                       
+							
+                                                      
+                                                        
+							<tbody>
+                                                    {% for param in pagerparam.currentPageResults %}
+                                                          
+                                                            <tr>
+                                                                    
+									
+                                                                        <td>
+                                                                            <a href="{{path('sousparam',{'id':param.id})}}">{{param.name}} </a>
+                                                                            
+                                                                        </td>
+                                                                        
+                                                                  
+                                                                                
+                                                                  	
+                                                                        <td><a href="{{path('editparam',{'id':param.id})}}"><img src="{{asset('bundles/gallerieadmin/images/edit-icon.png')}}" alt="Editer"></a>&nbsp;
+                                                                        <a href="{{path('deleteparam',{'id':param.id})}}"><img src="{{asset('bundles/gallerieadmin/images/delete-icon.png')}}" alt="Supprimer"></a></td>
+								</tr>
+								{%endfor%}
+                                                                
+                                                                
+								
+							</tbody>
+                                                        
+						<div id="pagination">{{ pagerfanta(pagerparam, 'default') }}</div> 	
+						</table>
+				<a href="{{path('addparam')}}">Nouveau paramétre</a>
+        
+        
+        </div>
+						
+</div> <!-- End #tab1 -->
+</div> <!-- End .content-box-content -->
+

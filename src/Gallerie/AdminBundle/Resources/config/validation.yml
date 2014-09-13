@@ -1,0 +1,3 @@
+#Gallerie\AdminBundle\Entity\Test:
+   #  constraints:
+     #   - MultiFile

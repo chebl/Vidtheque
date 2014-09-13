@@ -1,0 +1,52 @@
+<aside id="sidebar">
+                                     
+                                    <section class="widget">
+                                      <h3 class="title">Nos derniers Photos</h3>
+                                       {%for photo in lastphotos%} 
+                                        <div class="sidebar-post clearfix">						
+                                            <a href="#"><img src="{{asset('bundles/galleriemedia/uploads/images/')}}{{photo.path}}" height="40" weight="30" alt="Post Image"></a>
+                                            <div class="sidebar-post-text">
+                                            <a href="">{{ photo.libelle }}</a>
+                                            <span class="date">{{ photo.dateinsertion|date('d-M-Y H:i:s') }}</span>
+                                            </div>
+                                        </div>			
+										{%endfor%}	                         						
+                                    </section>
+                                
+         <section class="widget">
+                                      <h3 class="title">Nos derniers Videos</h3>
+                                       {%for video in lastvideos%} 
+                                        <div class="sidebar-post clearfix">						
+                                               <a href=""  data-rel="popup{{video.libelle}}" class="poplight" data-width="500" title="{{video.libelle}}" ><img src="{{asset('bundles/galleriemedia/images/video.jpg')}}" height="40" weight="30"></a>
+                                                      
+                                                      <div id="popup{{video.libelle}}" class="popup_block">
+                                                      
+                                                          <video poster="{{asset('bundles/galleriemedia/images/video.png')}}" width="100%" height="100%"  controls preload>
+                                                  <source src="{{asset('bundles/galleriemedia/uploads/videos/')}}{{video.path}}"/> </video>
+                                                </div>
+                                            <div class="sidebar-post-text">
+                                            <a href="">{{ video.libelle }}</a>
+                                            <span class="date">{{ video.dateinsertion|date('d-M-Y H:i:s') }}</span>
+                                            </div>
+                                      		
+                                        </div>
+										{%endfor%}	                         						
+                                    </section>
+        
+        
+         <section class="widget">
+                                      <h3 class="title">Nos derniers Animations</h3>
+                                       {%for animation in lastanimations%} 
+                                        <div class="sidebar-post clearfix">						
+                                           <embed src="{{asset('bundles/galleriemedia/uploads/animations/')}}{{animation.path}}">
+                                            <span class="date">{{ animation.dateinsertion|date('d-M-Y H:i:s') }}</span>
+                                            </div>
+                                        </div>			
+										{%endfor%}	                         						
+                                    </section>
+        
+                                    
+                                            
+                                  
+                                   									
+                                </aside>          

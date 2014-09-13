@@ -1,0 +1,32 @@
+<html>
+    <body>
+    
+        <form action="{{path('gallerie_multiupload_homepage')}}" method="post" {{ form_enctype(form) }}>
+         <table>
+                                                             
+                                                                <tr>
+                                                               <td>
+                                                                    {{form_label(form.file)}}
+                                                                    </td>
+                                                                    
+                                                               <td>
+                                                                    {{form_widget(form.file)}}
+                                                                    </td>
+                                                                    
+                                                                    
+                                                                     </tr>
+                                                                     <tr>
+                                              <td><span style="color: red">{{ form_errors(form.file) }}</span></td> 
+                                                                     </tr>
+         {{ form_rest(form) }}
+                                                                     <tr><td>
+                                                                          <input type="submit"  value="valider">
+                                                                         </td>
+                                                                     </tr>
+                                                                    
+                                                            </table>	
+                                                                     
+                                                         </form>
+    
+    </body>
+</html>
