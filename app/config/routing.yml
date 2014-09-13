@@ -1,0 +1,14 @@
+gallerie_admin:
+    resource: "@GallerieAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+gallerie_media:
+    resource: "@GallerieMediaBundle/Resources/config/routing.yml"
+    prefix:   /
+gallerie_multiupload:
+    resource: "@GallerieMultiuploadBundle/Resources/config/routing.yml"
+    prefix:   /
+
+oneup_uploader:
+    resource: .
+    type: uploader
